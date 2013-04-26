@@ -1,0 +1,31 @@
+#include <stdio.h>
+
+#include "nscore.h"
+#include "nsUniversalDetector.h"
+
+class PlexUniversalDetector : public nsUniversalDetector
+{
+ public:
+  
+  PlexUniversalDetector(PRUint32 aLanguageFilter)
+    : nsUniversalDetector(aLanguageFilter) {}
+  
+  virtual void Report(const char* aCharset)
+  {
+    printf("The charset was [%s]\n", aCharset);
+  }
+};
+
+int main()
+{
+  PlexUniversalDetector detector(NS_FILTER_ALL);
+
+  char data[76605];
+  FILE* f = fopen("/Volumes/Whopper/Users/elan/Downloads/205688/Changeling.CD1.DVDRip.XviD-PUKKA.smi", "rb");
+  size_t size = fread(data, 1, 76605, f);
+
+  detector.HandleData(data, 76605);
+  detector.DataEnd();
+  
+  return 0;
+}
