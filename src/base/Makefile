@@ -1,5 +1,3 @@
-CXXFLAGS = -O2
-
 OBJS = \
 		CharDistribution.o \
 		JpCntx.o \
