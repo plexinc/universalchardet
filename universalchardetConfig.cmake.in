@@ -1,0 +1,10 @@
+set(universalchardet_VERSION @PROJECT_VERSION@)
+include(CMakeFindDependencyMacro)
+
+@PACKAGE_INIT@
+
+set_and_check(universalchardet_INCLUDE_DIR "@PACKAGE_INCLUDE_INSTALL_DIR@")
+set_and_check(universalchardet_SYSCONFIG_DIR "@PACKAGE_SYSCONFIG_INSTALL_DIR@")
+set_and_check(universalchardet_CONFIG_DIR
+              "${installedPrefix}/@CONFIG_INSTALL_DIR@")
+check_required_components(universalchardet)
