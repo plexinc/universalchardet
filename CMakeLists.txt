@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.5 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.23 FATAL_ERROR)
 project(universalchardet VERSION 1.0.0)
 
 set(SRCS
@@ -28,20 +28,25 @@ set(SRCS
     src/base/nsUniversalDetector.cpp
     src/base/nsUTF8Prober.cpp)
 
+include(GNUInstallDirs)
+
 add_library(${PROJECT_NAME} ${SRCS})
 
 set_target_properties(${PROJECT_NAME} PROPERTIES VERSION ${PROJECT_VERSION}
                                                  SOVERSION 1)
-
+add_subdirectory(src/base)
 install(
   TARGETS ${PROJECT_NAME}
   EXPORT ${PROJECT_NAME}
+  FILE_SET public_headers
   LIBRARY DESTINATION lib
   ARCHIVE DESTINATION lib
+  PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/
   RUNTIME DESTINATION bin)
 
-# install( DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/ DESTINATION include
-# FILES_MATCHING PATTERN "*.h")
+# install( TARGETS ${PROJECT_NAME} EXPORT ${PROJECT_NAME} FILE_SET
+# public_headers DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}
+# INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 
 install(
   EXPORT ${PROJECT_NAME}
@@ -58,6 +63,7 @@ configure_package_config_file(
 
 install(FILES "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake"
         DESTINATION "lib/cmake/${PROJECT_NAME}")
+# install(DESTINATION include)
 
 # Create a version file
 write_basic_package_version_file(
